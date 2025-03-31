@@ -220,9 +220,9 @@ st.subheader("Top Seniority Levels")
 st.write(top_seniority)
 
 
-    # Sort seniority by percentage in descending order
-    top_seniority = seniority_data.sort_values(by='Percentage', ascending=False)
+# Sort seniority by percentage in descending order
+top_seniority = seniority_data.sort_values(by='Percentage', ascending=False)
 
-    # Display the sorted seniority data in Streamlit
-    st.subheader("Top Seniority Levels")
-    st.write(top_seniority)
+# Display the sorted seniority data in Streamlit
+st.subheader("Top Seniority Levels")
+st.write(top_seniority)
