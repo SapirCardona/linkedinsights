@@ -175,36 +175,50 @@ if uploaded_file is not None:
     # Display the Engagements chart in Streamlit
     st.plotly_chart(fig_engagements)
 
-    # ------------------- Top 5 Job Titles -------------------
-    if uploaded_file is not None:
-        # Load the "DEMOGRAPHICS" sheet from the uploaded file
-        data = pd.read_excel(uploaded_file, sheet_name="DEMOGRAPHICS")
+# ------------------- Top 5 Job Titles -------------------
+if uploaded_file is not None:
+    # Load the "DEMOGRAPHICS" sheet from the uploaded file
+    data = pd.read_excel(uploaded_file, sheet_name="DEMOGRAPHICS")
 
-        # Filter the data to include only job titles
-        job_titles_data = data[data['Top Demographics'] == 'Job titles']
+    # Filter the data to include only job titles
+    job_titles_data = data[data['Top Demographics'] == 'Job titles']
 
-        # Select only relevant columns: job title and percentage
-        job_titles_data = job_titles_data[['Value', 'Percentage']]
+    # Select only relevant columns: job title and percentage
+    job_titles_data = job_titles_data[['Value', 'Percentage']]
 
-        # Convert 'Percentage' to string and remove the '%' sign, then convert to float
-        job_titles_data['Percentage'] = job_titles_data['Percentage'].astype(str).str.replace('%', '').astype(float)
+    # Convert 'Percentage' to string, remove the '%' sign (אם יש), ואז להמיר למספר ולהכפיל ב-100
+    job_titles_data['Percentage'] = job_titles_data['Percentage'].astype(str).str.replace('%', '').astype(float) * 100
 
-        # Sort job titles by percentage in descending order and select the top 5
-        top_job_titles = job_titles_data.sort_values(by='Percentage', ascending=False).head(5)
+    # Sort job titles by percentage in descending order and select the top 5
+    top_job_titles = job_titles_data.sort_values(by='Percentage', ascending=False).head(5)
 
-        # Display the top 5 job titles in Streamlit
-        st.subheader("Top 5 Job Titles")
-        st.write(top_job_titles)
+    # Convert back to percentage format
+    top_job_titles['Percentage'] = top_job_titles['Percentage'].apply(lambda x: f"{x:.2f}%")
 
-    # ------------------- Top 5 Seniority Levels -------------------
-    # Filter the data to include only seniority
-    seniority_data = data[data['Top Demographics'] == 'Seniority']
+    # Display the top 5 job titles in Streamlit
+    st.subheader("Top 5 Job Titles")
+    st.write(top_job_titles)
 
-    # Select only relevant columns: seniority level and percentage
-    seniority_data = seniority_data[['Value', 'Percentage']]
+# ------------------- Top 5 Seniority Levels -------------------
+# Filter the data to include only seniority
+seniority_data = data[data['Top Demographics'] == 'Seniority']
 
-    # Convert 'Percentage' to string and remove the '%' sign, then convert to float
-    seniority_data['Percentage'] = seniority_data['Percentage'].astype(str).str.replace('%', '').astype(float)
+# Select only relevant columns: seniority level and percentage
+seniority_data = seniority_data[['Value', 'Percentage']]
+
+# Convert 'Percentage' to string, remove the '%' sign (אם יש), ואז להמיר למספר ולהכפיל ב-100
+seniority_data['Percentage'] = seniority_data['Percentage'].astype(str).str.replace('%', '').astype(float) * 100
+
+# Sort seniority by percentage in descending order
+top_seniority = seniority_data.sort_values(by='Percentage', ascending=False)
+
+# Convert back to percentage format
+top_seniority['Percentage'] = top_seniority['Percentage'].apply(lambda x: f"{x:.2f}%")
+
+# Display the sorted seniority data in Streamlit
+st.subheader("Top Seniority Levels")
+st.write(top_seniority)
+
 
     # Sort seniority by percentage in descending order
     top_seniority = seniority_data.sort_values(by='Percentage', ascending=False)
