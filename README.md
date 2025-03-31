@@ -4,12 +4,19 @@ A Streamlit-based web application for analyzing LinkedIn post performance and au
 
 🚀 Features:
 ✅ Upload and process LinkedIn analytics Excel files
+
 ✅ Visualize impressions, engagements, and audience reach
+
 ✅ Breakdown of top job titles, industries, locations, and seniority levels
+
 ✅ Interactive bar charts, time-series analysis, and summary metrics
+
 ✅ Built with Streamlit, Pandas, Plotly, and OpenPyxl
 
 🔧 How to Use:
 1️⃣ Clone the repository and install dependencies (pip install -r requirements.txt)
+
 2️⃣ Run streamlit run app.py to launch the dashboard
+
 3️⃣ Upload your LinkedIn analytics file and explore the insights
+
