@@ -17,11 +17,25 @@ if uploaded_file is not None:
         # Load the relevant sheets
         discovery_data = pd.read_excel(uploaded_file, sheet_name="DISCOVERY")
 
-        # Extract the required values from the DISCOVERY sheet
-        total_impressions = \
-        discovery_data.loc[discovery_data['Overall Performance'] == 'Impressions', '4/1/2024 - 3/31/2025'].values[0]
-        unique_users = \
-        discovery_data.loc[discovery_data['Overall Performance'] == 'Members reached', '4/1/2024 - 3/31/2025'].values[0]
+        # Identify the column that contains a date range
+        # It searches for a column that includes both '/' and '-' in its name
+        # Example: '4/1/2024 - 3/31/2025'
+        date_column = next((col for col in discovery_data.columns if "/" in col and "-" in col), None)
+
+        if date_column:
+            # Extract values dynamically based on the identified date column
+            total_impressions = \
+            discovery_data.loc[discovery_data['Overall Performance'] == 'Impressions', date_column].values[0]
+            unique_users = \
+            discovery_data.loc[discovery_data['Overall Performance'] == 'Members reached', date_column].values[0]
+
+            # Print the identified date column and extracted values
+            print(f"Using date column: {date_column}")
+            print(f"Total Impressions: {total_impressions}")
+            print(f"Unique Users: {unique_users}")
+        else:
+            # Handle the case where no date range column is found
+            print("No date range column found!")
 
         # Display the values in Streamlit as three beautiful cards
         col1, col2, = st.columns(2)
